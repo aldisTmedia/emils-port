@@ -182,10 +182,52 @@
       margin: 0;
       padding: 0;
       display: grid;
-      gap: 40px 24px;
-      grid-template-columns: repeat(auto-fill, minmax(min(326px, 100%), 1fr));
+      gap: 32px 16px;
+      grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
     }
+    @media (min-width: 720px) { .reels { gap: 40px 24px; grid-template-columns: repeat(auto-fill, minmax(240px, 1fr)); } }
+    .reels.embeds { grid-template-columns: repeat(auto-fill, minmax(min(326px, 100%), 1fr)); }
     .reels li { min-width: 0; container-type: inline-size; }
+
+    /* Cover that opens the reel on Instagram (phones, no JS) */
+    .reel {
+      position: relative;
+      display: block;
+      aspect-ratio: 9 / 16;
+      overflow: hidden;
+      border-radius: 3px;
+      background: var(--thumb);
+    }
+    .reel img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2, .7, .2, 1), filter .4s; }
+    .reel:hover img { transform: scale(1.03); }
+    .play {
+      position: absolute;
+      top: 50%; left: 50%;
+      width: 56px; height: 56px;
+      margin: -28px 0 0 -28px;
+      border-radius: 50%;
+      background: rgba(17, 17, 17, .72);
+    }
+    .play::after {
+      content: "";
+      position: absolute;
+      top: 50%; left: 50%;
+      margin: -9px 0 0 -5px;
+      border-style: solid;
+      border-width: 9px 0 9px 15px;
+      border-color: transparent transparent transparent #fff;
+    }
+    .reel-tag {
+      position: absolute;
+      left: 8px; bottom: 8px;
+      padding: 2px 8px;
+      border-radius: 3px;
+      background: rgba(17, 17, 17, .72);
+      color: #fff;
+      font-size: 13px;
+      font-style: italic;
+    }
+
     .reels iframe {
       display: block;
       width: 100%;
@@ -195,7 +237,8 @@
       border-radius: 3px;
       background: var(--thumb);
     }
-    .reels p { margin: 12px 0 0; padding-top: 10px; border-top: 1px solid var(--rule); font-size: 19px; line-height: 1.35; }
+    .reels p { margin: 12px 0 0; padding-top: 10px; border-top: 1px solid var(--rule); font-size: 16px; line-height: 1.35; }
+    @media (min-width: 720px) { .reels p { font-size: 19px; } }
     .meta { color: var(--muted); font-size: 15px; font-style: italic; }
 
     .cover { margin: 0 0 40px; max-width: 760px; }
@@ -228,7 +271,7 @@
     .reels iframe { transition: filter .4s; }
     @media (hover: hover) {
       .clips:has(a:hover) li:not(:hover) img,
-      .reels:has(li:hover) li:not(:hover) iframe { filter: grayscale(1); }
+      .reels:has(li:hover) li:not(:hover) :is(iframe, img) { filter: grayscale(1); }
     }
     .clips:has(a:focus-visible) li:not(:focus-within) img { filter: grayscale(1); }
     .clips time { display: block; color: var(--muted); font-size: 15px; font-style: italic; }
@@ -292,31 +335,59 @@
       <div class="sec-head reveal"><h2>LSM.lv video</h2><span class="count">7 video</span></div>
       <ul class="reels">
         <li class="reveal">
-          <iframe src="https://www.instagram.com/reel/DYrVlihsBRW/embed/" loading="lazy" scrolling="no" title="Kur Rīgā skatīties hokeju"></iframe>
+          <a class="reel" href="https://www.instagram.com/reel/DYrVlihsBRW/" target="_blank" rel="noopener" data-embed="https://www.instagram.com/reel/DYrVlihsBRW/embed/" data-title="Kur Rīgā skatīties hokeju">
+            <img src="assets/reels/DYrVlihsBRW.webp" alt="" width="540" height="960" loading="lazy">
+            <span class="play" aria-hidden="true"></span>
+            <span class="reel-tag">Instagram ↗</span>
+          </a>
           <p>Kur Rīgā skatīties hokeju<br><span class="meta">Pasaules čempionāts hokejā, 23.05.2026.</span></p>
         </li>
         <li class="reveal">
-          <iframe src="https://www.instagram.com/reel/DXtnf69ic3v/embed/" loading="lazy" scrolling="no" title="RFS un &quot;Riga FC&quot; derbijs 3:3"></iframe>
+          <a class="reel" href="https://www.instagram.com/reel/DXtnf69ic3v/" target="_blank" rel="noopener" data-embed="https://www.instagram.com/reel/DXtnf69ic3v/embed/" data-title="RFS un &quot;Riga FC&quot; derbijs 3:3">
+            <img src="assets/reels/DXtnf69ic3v.webp" alt="" width="540" height="960" loading="lazy">
+            <span class="play" aria-hidden="true"></span>
+            <span class="reel-tag">Instagram ↗</span>
+          </a>
           <p>RFS un “Riga FC” derbijs 3:3<br><span class="meta">Virslīga, 29.04.2026.</span></p>
         </li>
         <li class="reveal">
-          <iframe src="https://www.instagram.com/reel/DTlaj8giYyz/embed/" loading="lazy" scrolling="no" title="Junioru Pasaules kauss biatlonā Madonā"></iframe>
+          <a class="reel" href="https://www.instagram.com/reel/DTlaj8giYyz/" target="_blank" rel="noopener" data-embed="https://www.instagram.com/reel/DTlaj8giYyz/embed/" data-title="Junioru Pasaules kauss biatlonā Madonā">
+            <img src="assets/reels/DTlaj8giYyz.webp" alt="" width="540" height="960" loading="lazy">
+            <span class="play" aria-hidden="true"></span>
+            <span class="reel-tag">Instagram ↗</span>
+          </a>
           <p>Junioru Pasaules kauss biatlonā Madonā<br><span class="meta">Biatlons, 16.01.2026.</span></p>
         </li>
         <li class="reveal">
-          <iframe src="https://www.instagram.com/reel/DP1k1a9Aalo/embed/" loading="lazy" scrolling="no" title="Anglijas fani Rīgā"></iframe>
+          <a class="reel" href="https://www.instagram.com/reel/DP1k1a9Aalo/" target="_blank" rel="noopener" data-embed="https://www.instagram.com/reel/DP1k1a9Aalo/embed/" data-title="Anglijas fani Rīgā">
+            <img src="assets/reels/DP1k1a9Aalo.webp" alt="" width="540" height="960" loading="lazy">
+            <span class="play" aria-hidden="true"></span>
+            <span class="reel-tag">Instagram ↗</span>
+          </a>
           <p>Anglijas fani Rīgā<br><span class="meta">Pasaules kausa kvalifikācija, 15.10.2025.</span></p>
         </li>
         <li class="reveal">
-          <iframe src="https://www.instagram.com/p/DOeK2D7DO1g/embed/" loading="lazy" scrolling="no" title="Latvija slēdz daļu gaisa telpas pie austrumu robežas"></iframe>
+          <a class="reel" href="https://www.instagram.com/p/DOeK2D7DO1g/" target="_blank" rel="noopener" data-embed="https://www.instagram.com/p/DOeK2D7DO1g/embed/" data-title="Latvija slēdz daļu gaisa telpas pie austrumu robežas">
+            <img src="assets/reels/DOeK2D7DO1g.webp" alt="" width="540" height="960" loading="lazy">
+            <span class="play" aria-hidden="true"></span>
+            <span class="reel-tag">Instagram ↗</span>
+          </a>
           <p>Latvija slēdz daļu gaisa telpas pie austrumu robežas<br><span class="meta">Ziņas, 11.09.2025.</span></p>
         </li>
         <li class="reveal">
-          <iframe src="https://www.instagram.com/reel/DN72DHKiAJQ/embed/" loading="lazy" scrolling="no" title="Latvija pret Igauniju: kurā pusē igauņu fani?"></iframe>
+          <a class="reel" href="https://www.instagram.com/reel/DN72DHKiAJQ/" target="_blank" rel="noopener" data-embed="https://www.instagram.com/reel/DN72DHKiAJQ/embed/" data-title="Latvija pret Igauniju: kurā pusē igauņu fani?">
+            <img src="assets/reels/DN72DHKiAJQ.webp" alt="" width="540" height="960" loading="lazy">
+            <span class="play" aria-hidden="true"></span>
+            <span class="reel-tag">Instagram ↗</span>
+          </a>
           <p>Latvija pret Igauniju: kurā pusē igauņu fani?<br><span class="meta">EuroBasket, 29.08.2025.</span></p>
         </li>
         <li class="reveal">
-          <iframe src="https://www.instagram.com/reel/DLJskKnPXrH/embed/" loading="lazy" scrolling="no" title="LSM Sports viesojas: Rīgas derbijs"></iframe>
+          <a class="reel" href="https://www.instagram.com/reel/DLJskKnPXrH/" target="_blank" rel="noopener" data-embed="https://www.instagram.com/reel/DLJskKnPXrH/embed/" data-title="LSM Sports viesojas: Rīgas derbijs">
+            <img src="assets/reels/DLJskKnPXrH.webp" alt="" width="540" height="960" loading="lazy">
+            <span class="play" aria-hidden="true"></span>
+            <span class="reel-tag">Instagram ↗</span>
+          </a>
           <p>“LSM Sports viesojas”: Rīgas derbijs<br><span class="meta">Virslīga, 20.06.2025.</span></p>
         </li>
       </ul>
@@ -472,6 +543,20 @@
         document.querySelectorAll(".reveal, section").forEach(el => el.classList.add("in"));
         return;
       }
+      // Desktop: replace the reel covers with Instagram's embedded players.
+      // Phones keep the covers, which open the reel in the Instagram app.
+      if (matchMedia("(hover: hover) and (pointer: fine) and (min-width: 720px)").matches) {
+        document.querySelectorAll(".reel[data-embed]").forEach(a => {
+          const f = document.createElement("iframe");
+          f.src = a.dataset.embed;
+          f.title = a.dataset.title;
+          f.loading = "lazy";
+          f.setAttribute("scrolling", "no");
+          a.replaceWith(f);
+        });
+        document.querySelector(".reels").classList.add("embeds");
+      }
+
       // Stagger items that land on the same row
       document.querySelectorAll(".reels > li, .clips > li").forEach(li => {
         li.style.setProperty("--i", [...li.parentNode.children].indexOf(li) % 4);

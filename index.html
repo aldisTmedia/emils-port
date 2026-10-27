@@ -177,6 +177,16 @@
     }
     .count { color: var(--muted); font-style: italic; }
 
+    .group-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      gap: 16px;
+      margin: 0 0 20px;
+    }
+    .reels + .group-head { margin-top: 72px; }
+    h3 { margin: 0; font-size: 26px; font-weight: 400; font-style: italic; line-height: 1.2; }
+
     .reels {
       list-style: none;
       margin: 0;
@@ -332,7 +342,8 @@
     </header>
 
     <section id="lsm">
-      <div class="sec-head reveal"><h2>LSM.lv video</h2><span class="count">7 video</span></div>
+      <div class="sec-head reveal"><h2>LSM.lv video</h2><span class="count">11 video</span></div>
+      <div class="group-head reveal"><h3>Aiz kameras</h3><span class="count">8 video</span></div>
       <ul class="reels">
         <li class="reveal">
           <a class="reel" href="https://www.instagram.com/reel/DYrVlihsBRW/" target="_blank" rel="noopener" data-embed="https://www.instagram.com/reel/DYrVlihsBRW/embed/" data-title="Kur Rīgā skatīties hokeju">
@@ -357,6 +368,14 @@
             <span class="reel-tag">Instagram ↗</span>
           </a>
           <p>Junioru Pasaules kauss biatlonā Madonā<br><span class="meta">Biatlons, 16.01.2026.</span></p>
+        </li>
+        <li class="reveal">
+          <a class="reel" href="https://www.instagram.com/reel/DTD7hT9ldPj/" target="_blank" rel="noopener" data-embed="https://www.instagram.com/reel/DTD7hT9ldPj/embed/" data-title="Kamaniņu Pasaules kauss Siguldā">
+            <img src="assets/reels/DTD7hT9ldPj.webp" alt="" width="540" height="960" loading="lazy">
+            <span class="play" aria-hidden="true"></span>
+            <span class="reel-tag">Instagram ↗</span>
+          </a>
+          <p>Kamaniņu Pasaules kauss Siguldā<br><span class="meta">Kamaniņu sports, 03.01.2026.</span></p>
         </li>
         <li class="reveal">
           <a class="reel" href="https://www.instagram.com/reel/DP1k1a9Aalo/" target="_blank" rel="noopener" data-embed="https://www.instagram.com/reel/DP1k1a9Aalo/embed/" data-title="Anglijas fani Rīgā">
@@ -389,6 +408,34 @@
             <span class="reel-tag">Instagram ↗</span>
           </a>
           <p>“LSM Sports viesojas”: Rīgas derbijs<br><span class="meta">Virslīga, 20.06.2025.</span></p>
+        </li>
+      </ul>
+
+      <div class="group-head reveal"><h3>Kadrā</h3><span class="count">3 video</span></div>
+      <ul class="reels">
+        <li class="reveal">
+          <a class="reel" href="https://www.instagram.com/reel/DPTCRfIEsRM/" target="_blank" rel="noopener" data-embed="https://www.instagram.com/reel/DPTCRfIEsRM/embed/" data-title="Vai Trampa tarifi ietekmēs Latviju?">
+            <img src="assets/reels/DPTCRfIEsRM.webp" alt="" width="540" height="960" loading="lazy">
+            <span class="play" aria-hidden="true"></span>
+            <span class="reel-tag">Instagram ↗</span>
+          </a>
+          <p>Vai Trampa tarifi ietekmēs Latviju?<br><span class="meta">Ziņas, 01.10.2025.</span></p>
+        </li>
+        <li class="reveal">
+          <a class="reel" href="https://www.instagram.com/reel/DPBDFzbk4dh/" target="_blank" rel="noopener" data-embed="https://www.instagram.com/reel/DPBDFzbk4dh/embed/" data-title="Vai vecākus sodīt par bērnu kavējumiem?">
+            <img src="assets/reels/DPBDFzbk4dh.webp" alt="" width="540" height="960" loading="lazy">
+            <span class="play" aria-hidden="true"></span>
+            <span class="reel-tag">Instagram ↗</span>
+          </a>
+          <p>Vai vecākus sodīt par bērnu kavējumiem?<br><span class="meta">Ziņas, 25.09.2025.</span></p>
+        </li>
+        <li class="reveal">
+          <a class="reel" href="https://www.instagram.com/reel/DObsNvCjJIs/" target="_blank" rel="noopener" data-embed="https://www.instagram.com/reel/DObsNvCjJIs/embed/" data-title="Polijā ielido Krievijas droni">
+            <img src="assets/reels/DObsNvCjJIs.webp" alt="" width="540" height="960" loading="lazy">
+            <span class="play" aria-hidden="true"></span>
+            <span class="reel-tag">Instagram ↗</span>
+          </a>
+          <p>Polijā ielido Krievijas droni<br><span class="meta">Ziņas, 10.09.2025.</span></p>
         </li>
       </ul>
     </section>
@@ -554,7 +601,7 @@
           f.setAttribute("scrolling", "no");
           a.replaceWith(f);
         });
-        document.querySelector(".reels").classList.add("embeds");
+        document.querySelectorAll(".reels").forEach(ul => ul.classList.add("embeds"));
       }
 
       // Stagger items that land on the same row

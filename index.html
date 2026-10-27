@@ -701,7 +701,7 @@
 
   <script>
     (() => {
-      // Music videos open in a modal with a muted YouTube player.
+      // Music videos open in a modal with a YouTube player (sound on).
       // Without <dialog> support the links just open YouTube.
       const player = document.getElementById("player");
       if (player.showModal) {
@@ -712,7 +712,7 @@
           a.addEventListener("click", ev => {
             ev.preventDefault();
             const f = document.createElement("iframe");
-            f.src = `https://www.youtube-nocookie.com/embed/${a.dataset.yt}?autoplay=1&mute=1&playsinline=1&rel=0`;
+            f.src = `https://www.youtube-nocookie.com/embed/${a.dataset.yt}?autoplay=1&playsinline=1&rel=0`;
             f.title = a.getAttribute("aria-label").replace("Atskaņot: ", "");
             f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
             f.allowFullscreen = true;

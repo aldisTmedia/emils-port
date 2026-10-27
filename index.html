@@ -260,7 +260,7 @@
       grid-template-columns: repeat(auto-fill, minmax(min(320px, 100%), 1fr));
     }
     .videos li { min-width: 0; }
-    .yt, .yt-frame {
+    .yt {
       position: relative;
       display: block;
       aspect-ratio: 16 / 9;
@@ -270,9 +270,38 @@
     }
     .yt img { width: 100%; height: 100%; object-fit: cover; transition: transform .6s cubic-bezier(.2, .7, .2, 1), filter .4s; }
     .yt:hover img { transform: scale(1.03); }
-    .yt-frame iframe { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; }
     .videos p { margin: 12px 0 0; padding-top: 10px; border-top: 1px solid var(--rule); font-size: 17px; line-height: 1.35; }
     @media (min-width: 720px) { .videos p { font-size: 19px; } }
+
+    /* Video modal */
+    html.modal-open { overflow: hidden; }
+    .player {
+      width: min(1100px, calc(100vw - 32px), calc((100vh - 200px) * 16 / 9));
+      max-width: none;
+      max-height: none;
+      padding: 0;
+      border: 0;
+      overflow: visible;
+      background: transparent;
+      color: #f5f5f5;
+    }
+    .player::backdrop { background: rgba(10, 10, 10, .9); }
+    .player-box { position: relative; }
+    .player-frame { aspect-ratio: 16 / 9; overflow: hidden; border-radius: 3px; background: #000; }
+    .player-frame iframe { display: block; width: 100%; height: 100%; border: 0; }
+    .player-close {
+      position: absolute;
+      top: -48px; right: -8px;
+      width: 44px; height: 44px;
+      border: 0;
+      background: none;
+      color: #f5f5f5;
+      font: 36px/1 "Source Serif 4", Georgia, serif;
+      cursor: pointer;
+    }
+    .player-close:hover { color: #8f8f8f; }
+    .player-caption { margin: 14px 0 0; font-size: 19px; line-height: 1.35; }
+    .player-caption .meta { color: #a3a3a3; }
 
     .cover { margin: 0 0 40px; max-width: 760px; }
     .cover img { border-radius: 3px; }
@@ -349,6 +378,11 @@
       .js section.in::before { transform: none; }
       .js section::after { transform: scaleX(0); transform-origin: left; transition: transform .6s .5s cubic-bezier(.6, 0, .2, 1); }
       .js section.in::after { transform: none; }
+
+      @keyframes pop { from { opacity: 0; transform: translateY(12px) scale(.98); } }
+      @keyframes fade { from { opacity: 0; } }
+      .player[open] { animation: pop .35s cubic-bezier(.2, .7, .2, 1); }
+      .player[open]::backdrop { animation: fade .3s ease; }
     }
   </style>
 </head>
@@ -657,8 +691,47 @@
       <p class="sign">Emīls Sestulis</p>
     </footer>
   </div>
+  <dialog class="player" id="player" aria-label="Video">
+    <div class="player-box">
+      <button class="player-close" type="button" aria-label="Aizvērt">×</button>
+      <div class="player-frame"></div>
+      <p class="player-caption"></p>
+    </div>
+  </dialog>
+
   <script>
     (() => {
+      // Music videos open in a modal with a muted YouTube player.
+      // Without <dialog> support the links just open YouTube.
+      const player = document.getElementById("player");
+      if (player.showModal) {
+        const frame = player.querySelector(".player-frame");
+        const caption = player.querySelector(".player-caption");
+
+        document.querySelectorAll(".yt[data-yt]").forEach(a => {
+          a.addEventListener("click", ev => {
+            ev.preventDefault();
+            const f = document.createElement("iframe");
+            f.src = `https://www.youtube-nocookie.com/embed/${a.dataset.yt}?autoplay=1&mute=1&playsinline=1&rel=0`;
+            f.title = a.getAttribute("aria-label").replace("Atskaņot: ", "");
+            f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
+            f.allowFullscreen = true;
+            frame.replaceChildren(f);
+            caption.innerHTML = a.closest("li").querySelector("p").innerHTML;
+            player.showModal();
+            document.documentElement.classList.add("modal-open");
+          });
+        });
+
+        // Closing removes the iframe so the video stops
+        player.addEventListener("close", () => {
+          frame.replaceChildren();
+          document.documentElement.classList.remove("modal-open");
+        });
+        player.querySelector(".player-close").addEventListener("click", () => player.close());
+        player.addEventListener("click", ev => { if (ev.target === player) player.close(); });
+      }
+
       if (!("IntersectionObserver" in window)) {
         document.querySelectorAll(".reveal, section").forEach(el => el.classList.add("in"));
         return;
@@ -676,22 +749,6 @@
         });
         document.querySelectorAll(".reels").forEach(ul => ul.classList.add("embeds"));
       }
-
-      // YouTube: swap the thumbnail for a muted player on click
-      document.querySelectorAll(".yt[data-yt]").forEach(a => {
-        a.addEventListener("click", ev => {
-          ev.preventDefault();
-          const box = document.createElement("div");
-          box.className = "yt-frame";
-          const f = document.createElement("iframe");
-          f.src = `https://www.youtube-nocookie.com/embed/${a.dataset.yt}?autoplay=1&mute=1&playsinline=1&rel=0`;
-          f.title = a.getAttribute("aria-label").replace("Atskaņot: ", "");
-          f.allow = "autoplay; encrypted-media; picture-in-picture; fullscreen";
-          f.allowFullscreen = true;
-          box.append(f);
-          a.replaceWith(box);
-        });
-      });
 
       // Stagger items that land on the same row
       document.querySelectorAll(".reels > li, .videos > li, .clips > li").forEach(li => {
